@@ -1,0 +1,154 @@
+<html>
+
+<head>
+    <title></title>
+    <script src="./js/ajaxRequest.js"></script>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<script>
+    //获取手机屏幕宽度
+    var deviceWidth = document.documentElement.clientWidth;
+    //设置html的font-size
+    document.documentElement.style.fontSize = deviceWidth / 10.8 + 'px';
+    document.documentElement.style.overflow = 'hidden';
+
+
+
+    window.addEventListener('message', (data) => {
+        console.log(data);
+    })
+    
+    function goback() {
+        window.history.go(-1);
+    }
+    function finishEvent() {
+        var obj = {
+            status: 'success'
+        }
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        if (isAndroid) {
+            window.androidYZH.bfPayH5ToAoYouNativePage(true)
+        } else {
+            window.webkit.messageHandlers.nativejs.postMessage(obj);
+        }
+    }
+
+</script>
+
+<style type="text/css">
+    .b {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* background-color: red; */
+    }
+
+    .img {
+        margin-top: 1.9rem;
+    }
+
+    .resultDiv {
+        margin-top: 0.48rem;
+    }
+
+    .resultSpan {
+        font-size: 0.45rem;
+        font-weight: 400;
+    }
+
+    .bankInfoContainer {
+        width: 100%;
+        margin-top: 0.48rem;
+    }
+
+    .bankInfo {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.51rem;
+    }
+
+    .moneyInfo {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.45rem;
+        margin-bottom: 0.51rem;
+    }
+
+    .moneyLabel {
+        display: block;
+        width: 1.65rem;
+        color: #999999;
+        font-size: 0.39rem;
+        font-weight: 400;
+    }
+
+    .moneyContent {
+        color: #333333;
+        font-size: 0.39rem;
+        font-weight: 400;
+        margin-left: 0.54rem;
+        text-align: left;
+    }
+
+    .submitBtn {
+        margin-top: 4.52rem;
+        height: 1.05rem;
+        width: 2.96rem;
+        font-size: 0.39rem;
+        color: #ffffff;
+        border: 0rem;
+        background-color: #FA8C16;
+        border-radius: 0.06rem;
+    }
+</style>
+
+<body>
+    <div class="b">
+        <img id='imgTag' class="img" src="./img/chenggong.svg" alt="" width='50px' height="50px">
+        <div class="resultDiv">
+            <span id='result_Span' class="resultSpan">充值成功</span>
+        </div>
+        <script>
+            function getResult() {
+                var url = decodeURI(window.location.href);
+                var array = url.split('?resu=');
+                var x = array[1];
+                console.log('xxx = ', x);
+                var img = document.getElementById('imgTag');
+                var scr = ''
+                var resu = ''
+                if (x == 'true') {
+                    resu = '充值成功'
+                    scr = './img/chenggong.svg';
+                } else {
+                    resu = '充值失败'
+                    scr = './img/shibai.svg';
+                }
+                img.src = scr;
+                document.getElementById('result_Span').innerHTML = resu;
+            }
+
+            // getResult();
+        </script>
+        <div class="bankInfoContainer">
+            <div class="bankInfo">
+                <span class="moneyLabel">储蓄卡</span>
+                <span class="moneyContent">银行名称</span>
+            </div>
+            <div class="moneyInfo">
+                <span class="moneyLabel">充值金额</span>
+                <span class="moneyContent">¥ 900</span>
+            </div>
+        </div>
+
+        <button onclick="finishEvent()" class="submitBtn">确定</button>
+
+
+    </div>
+
+</body>
+
+</html>
